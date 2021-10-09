@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
+import { Login } from './pages/Login';
+import { Map } from './pages/Map';
+import { Profile } from './pages/Profile';
+import { Header } from './components/Header'
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const [activePage, currentPage] = useState('login');
+  const header = <Header currentPage={ currentPage } />
+  const pages = {
+    login: <Login activePage = { activePage } currentPage = { currentPage } />,
+    profile: <Profile />,
+    map: <Map />,
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {activePage !== 'login' && <div>{ header }</div>}
+      {pages[activePage]}
     </div>
-  );
+  )
 }
 
 export default App;

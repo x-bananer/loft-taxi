@@ -1,22 +1,46 @@
-import React, {useState} from 'react';
-import SignUp from '../components/SignUp'
-import SignIn from '../components/SignIn'
+import React from 'react';
 
-export const Login = ({ activePage, currentPage }) => {
+export const Login = (props) => {
 
-  const [isRegistered, setIsRegistered] = useState(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.navigateTo("Map")
+  }
+
+  const onSignUp = (e) => {
+    e.preventDefault();
+    props.navigateTo("Registration")
+  }
 
   return (
-    <div>
-      {isRegistered ?
-        <SignIn activePage = {activePage} currentPage = {currentPage} />
-      :
-        <SignUp activePage = {activePage} currentPage = {currentPage} />
-      }
-      <button type="button" onClick={() => setIsRegistered(!isRegistered)}>
-        {isRegistered ? 'Зарегистрироваться' : 'Войти'}
-      </button>
-    </div>
+    <>
+      <h2>Войти</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="mail@mail.ru"
+        />
+        <label htmlFor="password">Пароль</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="*************"
+        />
+        <div>Забыли пароль?</div>
+        <input
+          type="submit"
+          value="Войти"
+        />
+      </form>
+      <div>
+        <p>Новый пользователь?</p>
+      </div>
+      <button onClick={onSignUp}>Регистрация</button>
+    </>
   )
 }
 

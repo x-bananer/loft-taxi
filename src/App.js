@@ -1,27 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Login } from './pages/Login';
-import { Map } from './pages/Map';
-import { Profile } from './pages/Profile';
-import { Header } from './components/Header'
+import Registration from './pages/Registration';
+import Login from './pages/Login';
+import Map from './pages/Map';
+import Profile from './pages/Profile';
+import Header from './components/Header'
 
 import './App.css';
 
-const App = () => {
-  const [activePage, currentPage] = useState('login');
-  const header = <Header currentPage={ currentPage } />
-  const pages = {
-    login: <Login activePage = { activePage } currentPage = { currentPage } />,
-    profile: <Profile />,
-    map: <Map />,
+class App extends React.Component {
+  state = { currentPage: "" }
+
+  navigateTo = (page) => {
+    this.setState({ currentPage: page })
   }
 
-  return (
-    <div>
-      {activePage !== 'login' && <div>{ header }</div>}
-      {pages[activePage]}
-    </div>
-  )
+  render() {
+    return (
+      <>
+        <Header navigateTo={this.navigateTo} />
+        <main>
+          <section>
+            {
+              {
+                Registration: <Registration navigateTo={this.navigateTo}/>,
+                Login: <Login navigateTo={this.navigateTo} />,
+                Map: <Map />,
+                Profile: <Profile />
+              }[this.state.currentPage]
+            }
+          </section>
+        </main>
+      </>
+    )
+  }
 }
 
 export default App;

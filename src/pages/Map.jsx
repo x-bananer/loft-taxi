@@ -1,11 +1,15 @@
 import React from 'react';
 
-export const Map = () => {
-  return (
-    <div>
-      Карта
-    </div>
-  )
+class Map extends React.Component {
+  render() {
+    return (
+      <>
+        <div>
+          Карта
+        </div>
+      </>
+    )
+  }
 }
 
 export default Map;

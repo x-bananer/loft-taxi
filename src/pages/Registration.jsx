@@ -1,21 +1,21 @@
 import React from "react";
+import { withAuth } from '../AuthContext';
+import PropTypes from 'prop-types';
 
-export const Registration = (props) => {
+export class Registration extends React.Component {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    props.navigateTo("Map")
+  static propTypes = {
+    logIn: PropTypes.func
   }
 
-  const onSignIn = (e) => {
-    e.preventDefault();
-    props.navigateTo("Login")
+  goToLogin = () => {
+    this.props.navigate("Login")
   }
-
-  return (
-    <>
-      <h2>Регистрация</h2>
-      <form onSubmit={handleSubmit}>
+  
+  render() {
+    return (
+      <>
+        <form>
         <label htmlFor="email">Email*</label>
         <input
           type="email"
@@ -25,30 +25,25 @@ export const Registration = (props) => {
         />
         <label htmlFor="name">Как вас зовут?*</label>
         <input
-          type="name"
+          type="text"
           id="name"
           name="name"
           placeholder="Петр Александрович"
         />
-        <label htmlFor="name">Придумайте пароль*</label>
-        <input
+         <label htmlFor="password">Придумайте пароль*</label>
+         <input
           type="password"
           id="password"
           name="password"
           placeholder="*************"
         />
-        <input
-          type="submit"
-          id="signup"
-          value="Зарегистрироваться"
-        />
-      </form>
-      <div>
+        <button type="submit">Зарегистрироваться</button>
+        </form>
         <p>Уже зарегистрированы?</p>
-      </div>
-      <button onClick={onSignIn}>Войти</button>
-    </>
-  )
+        <button onClick={this.goToLogin}>Войти</button>
+      </>
+    );
+  }
 }
 
-export default Registration;
+export const RegistrationWithAuth = withAuth(Registration);

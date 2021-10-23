@@ -1,15 +1,12 @@
 import React from 'react';
+import { withAuth } from '../AuthContext'
 
-class Profile extends React.Component {
-  render() {
-    return (
-      <>
-        <div>
-          Профиль
-        </div>
-      </>
-    )
-  }
+export const Profile = () => {
+  return (
+    <>
+      Профиль
+    </>
+  )
 }
 
-export default Profile;
+export const ProfileWithAuth = withAuth(Profile)

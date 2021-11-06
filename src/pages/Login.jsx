@@ -1,30 +1,24 @@
 import React from 'react';
-import { withAuth } from '../AuthContext';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { authenticate } from '../actions';
+import { Link, Redirect } from 'react-router-dom';
 
 export class Login extends React.Component {
-
-  static propTypes = {
-    navigate: PropTypes.func,
-    logIn: PropTypes.func
-  }
-
-  goToRegistration = () => {
-    this.props.navigate("Registration")
-  }
 
   authenticate = (event) => {
     event.preventDefault()
     const { email, password } = event.target;
-    this.props.logIn(email.value, password.value)
+    this.props.authenticate(email.value, password.value)
   }
 
   render() {
     return (
       <>
+        <h1>Войти</h1>
         {
           this.props.isLoggedIn ? (
-            this.props.navigate("Map")
+          <Redirect to="/map" />
           ) : (
             <div>
               <form onSubmit={this.authenticate}>
@@ -45,7 +39,7 @@ export class Login extends React.Component {
               <button type="submit">Войти</button>
               </form>
               <p>Новый пользователь?</p>
-              <button onClick={this.goToRegistration}>Регистрация</button>
+              <Link to="/registration">Регистрация</Link>
             </div>
           )
         }
@@ -54,4 +48,12 @@ export class Login extends React.Component {
   }
 }
 
-export const LoginWithAuth = withAuth(Login);
+Login.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  logIn: PropTypes.func
+};
+
+export const LoginWithConnect = connect(
+  (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+  { authenticate }
+)(Login);

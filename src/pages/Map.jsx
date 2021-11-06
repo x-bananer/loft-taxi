@@ -1,6 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl'
-import { withAuth } from '../AuthContext'
+import { connect } from 'react-redux';
 
 export class Map extends React.Component {
   map = null;
@@ -28,4 +28,6 @@ export class Map extends React.Component {
   }
 }
 
-export const MapWithAuth = withAuth(Map);
+export const MapWithConnect = connect(
+  (state) => ({ isLoggedIn: state.auth.isLoggedIn})
+)(Map);

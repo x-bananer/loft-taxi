@@ -1,20 +1,13 @@
 import React from "react";
-import { withAuth } from '../AuthContext';
-import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 export class Registration extends React.Component {
-
-  static propTypes = {
-    logIn: PropTypes.func
-  }
-
-  goToLogin = () => {
-    this.props.navigate("Login")
-  }
   
   render() {
     return (
       <>
+        <h1>Регистрация</h1>
         <form>
         <label htmlFor="email">Email*</label>
         <input
@@ -40,10 +33,12 @@ export class Registration extends React.Component {
         <button type="submit">Зарегистрироваться</button>
         </form>
         <p>Уже зарегистрированы?</p>
-        <button onClick={this.goToLogin}>Войти</button>
+        <Link to="/">Войти</Link>
       </>
     );
   }
 }
 
-export const RegistrationWithAuth = withAuth(Registration);
+export default connect(
+  null
+)(Registration);

@@ -4,8 +4,7 @@ const initialState = {
   isLoggedIn: false
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default function(state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case LOG_IN: {
       return {isLoggedIn: true}

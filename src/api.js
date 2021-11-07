@@ -5,19 +5,18 @@ export const serverLogIn = async (email, password) => {
     headers: { "Content-Type": "application/json" },
   })
     .then((response) => response.json())
-    .then((data) => ({ success: data.success, token: data.token }));
 };
 
-export const addCard = async (cardNumber, expiryDate, cardName, cvc, token) => {
+export const addCard = async (data) => {
   return fetch("https://loft-taxi.glitch.me/card", {
     method: "POST",
-    body: JSON.stringify({cardNumber: cardNumber, expiryDate: expiryDate, cardName: cardName, cvc: cvc, token: token}),
+    body: JSON.stringify({data}),
     headers: { "Content-Type": "application/json" },
   })
   .then((response) => response.json())
-  .then((data) => ({ success: data.success }));
 }
 
-export const getCard = async () => {
-  
-}
+export const getCard = async (token) => {
+  return fetch(`https://loft-taxi.glitch.me/card?token=${token}`)
+    .then((response) => response.json())
+};

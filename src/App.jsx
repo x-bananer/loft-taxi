@@ -5,12 +5,17 @@ import { Link, Switch, Route } from 'react-router-dom';
 import { logOut } from './actions';
 
 import './App.css';
+import './index.css'
 
 import { Registration } from './pages/Registration';
 import { LoginWithConnect } from './pages/Login';
 import { MapWithConnect } from './pages/Map';
 import { ProfileWithConnect } from './pages/Profile';
 import { PrivateRoute } from './components/PrivateRoute';
+
+//styles
+import { Logo } from 'loft-taxi-mui-theme';
+import { AppBar, Toolbar, Button } from "@material-ui/core"
 
 class App extends React.Component {
 
@@ -21,24 +26,31 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
-        <header>
-          <nav>
+      <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',  height: '100%'}}>
+        <AppBar position="static" style={{background: "#fff"}}>
+          <Toolbar>
+            <span style={{flexGrow: 1}}>
+              <Logo />
+            </span>
             <ul>
-              <li>
-                <Link onClick={this.unauthenticate} to="/">
+              <Button>
+                <Link style={{color: "#000", textDecoration: "none"}} to="/map">
+                  Карта
+                </Link>
+              </Button>
+              <Button>
+                <Link style={{color: "#000", textDecoration: "none"}} to="/profile">
+                  Профиль
+                </Link>
+              </Button>
+              <Button>
+                <Link style={{color: "#000", textDecoration: "none"}} onClick={this.unauthenticate} to="/">
                   Выйти
                 </Link>
-              </li>
-              <li>
-                <Link to="/map">Карта</Link>
-              </li>
-              <li>
-                <Link to="/profile">Профиль</Link>
-              </li>
+              </Button>
             </ul>
-          </nav>
-        </header>
+          </Toolbar>
+        </AppBar>
         <main data-testid="container">
           <section>
           <Switch>
@@ -49,7 +61,7 @@ class App extends React.Component {
           </Switch>
           </section>
         </main>
-      </>
+      </div>
     )
   }
 }

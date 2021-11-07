@@ -1,15 +1,45 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
+import { cardSuccess } from '../actions';
 
 export class Profile extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isDataChanged: false
-    } 
+
+  state = {
+    isDataChanged: false,
+    cardName: null,
+    cardNumber: null,
+    expiryDate: null,
+    cvc: null
   }
-  
+
+  componentDidMount() {
+    const { cardName, cardNumber, expiryDate, cvc } = this.props;
+    this.setState({
+      cardName,
+      cardNumber,
+      expiryDate,
+      cvc
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { cardName, cardNumber, expiryDate, cvc } = this.state;
+    const { token } = this.props;
+    this.setState({
+      isDataChanged: true
+    });
+    this.props.cardSuccess(cardName, cardNumber, expiryDate, cvc, token);
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
   render() {
     const isDataChanged = this.state;
     return (
@@ -19,41 +49,45 @@ export class Profile extends React.Component {
           isDataChanged ? (
             <div>
               <p>Введите платежные данные</p>
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <label htmlFor="name">Имя владельца</label>
                 <input
                   type="text"
                   id="name"
-                  name="name"
+                  name="cardName"
                   placeholder="USER NAME"
-                  value=""
+                  value={this.state.cardName}
+                  onChange={this.handleChange}
                 />
 
                 <label htmlFor="number">Номер карты</label>
                 <input
                   type="text"
                   id="number"
-                  name="number"
+                  name="cardNumber"
                   placeholder="0000 0000 0000 0000"
-                  value=""
+                  value={this.state.cardNubmer}
+                  onChange={this.handleChange}
                 />
 
                 <label htmlFor="date">MM/YY</label>
                 <input
                   type="text"
                   id="date"
-                  name="date"
+                  name="expiryDate"
                   placeholder="00/00"
-                  value=""
+                  value={this.state.expiryDate}
+                  onChange={this.handleChange}
                 />
 
                 <label htmlFor="code">CVC</label>
                 <input
                   type="text"
                   id="code"
-                  name="code"
+                  name="cvc"
                   placeholder="CVC"
-                  value=""
+                  value={this.state.cvc}
+                  onChange={this.handleChange}
                 />
                 <button type="submit">Сохранить</button>
               </form>
@@ -71,5 +105,6 @@ export class Profile extends React.Component {
 }
 
 export const ProfileWithConnect = connect(
-  null
+  null,
+  { cardSuccess }
 )(Profile);

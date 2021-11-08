@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { cardSuccess } from '../actions';
+import { cardSuccess, getCardRequest } from '../actions';
 
 export class Profile extends React.Component {
 
@@ -14,13 +14,14 @@ export class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const { cardName, cardNumber, expiryDate, cvc } = this.props;
+    const { cardName, cardNumber, expiryDate, cvc, token } = this.props;
     this.setState({
       cardName,
       cardNumber,
       expiryDate,
       cvc
     });
+    this.props.getCardRequest(cardName, cardNumber, expiryDate, cvc, token)
   }
 
   handleSubmit = (event) => {
@@ -31,6 +32,7 @@ export class Profile extends React.Component {
       isDataChanged: true
     });
     this.props.cardSuccess(cardName, cardNumber, expiryDate, cvc, token);
+    console.log(cardName, cardNumber, expiryDate, cvc, token)
   };
 
   handleChange = (event) => {
@@ -41,12 +43,12 @@ export class Profile extends React.Component {
   };
 
   render() {
-    const isDataChanged = this.state;
+    const { isDataChanged } = this.state
     return (
       <>
         <h1>Профиль</h1>
         {
-          isDataChanged ? (
+          !isDataChanged ? (
             <div>
               <p>Введите платежные данные</p>
               <form onSubmit={this.handleSubmit}>
@@ -105,6 +107,11 @@ export class Profile extends React.Component {
 }
 
 export const ProfileWithConnect = connect(
-  null,
-  { cardSuccess }
+  state => ({
+    cardName: state.profile.cardName,
+    cardNumber: state.profile.cardNumber,
+    expiryDate: state.profile.expiryDate,
+    cvc: state.profile.cvc
+  }),
+  { cardSuccess, getCardRequest }
 )(Profile);

@@ -4,9 +4,9 @@ import {serverLogIn} from './api'
 export const authMiddleware = (store) => (next) => async (action) => {
   if (action.type === AUTHENTICATE) {
     const {email, password} = action.payload;
-    const success = await serverLogIn(email, password)
+    const { success, token = '' } = await serverLogIn(email, password)
     if(success){
-      store.dispatch(logIn())
+      store.dispatch(logIn(email, password, token));
     }
   } else {
     next(action);
